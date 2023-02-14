@@ -1,5 +1,6 @@
 class winCalc:
     points = {"X": 1, "Y": 2, "Z": 3}
+    points2 = {"rock": 1, "paper": 2, "scissor": 3}
 
     def __init__(self, filePath: str) -> None:
         self.filePath = filePath
@@ -44,7 +45,49 @@ class winCalc:
 
         return self.score
 
+    @staticmethod
+    def requiredMove(elfMove: str, Condition: str):
+        if Condition == "X":  # lose
+            if elfMove == "A":
+                return "scissor"
+            elif elfMove == "B":
+                return "rock"
+            elif elfMove == "C":
+                return "paper"
+        elif Condition == "Y":  # draw
+            if elfMove == "A":
+                return "rock"
+            elif elfMove == "B":
+                return "paper"
+            elif elfMove == "C":
+                return "scissor"
+        else:  # win
+            if elfMove == "A":
+                return "paper"
+            elif elfMove == "B":
+                return "scissor"
+            else:
+                return "rock"
+
+    def getAns2(self):
+        self.processData()
+        self.score = 0
+        for line in self.rdata:
+            a, b = line.split()
+            self.score += winPoints.points2[self.requiredMove(a, b)]
+            if b == "X":  # lose
+                continue
+            elif b == "Y":
+                self.score += 3
+                continue
+            else:
+                self.score += 6
+                continue
+
+        return self.score
+
 
 # winPoints = winCalc("./day2_sample_input.txt")
 winPoints = winCalc("./day2_input.txt")
-print(winPoints.getAns1())
+# print(winPoints.getAns1())
+print(winPoints.getAns2())
