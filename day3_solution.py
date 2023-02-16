@@ -24,7 +24,7 @@ class getPriority:
         self.score = 0
         for i in range(3, len(self.rdata) + 1, 3):
             a, b, c = map(set, self.rdata[i - 3 : i])
-            badge = a.intersection(b).intersection(c)
+            badge = a.intersection(b).intersection(c)           badge.remove("\n")
             badge.remove("\n")
             self.score += self.getPriority(badge)
 

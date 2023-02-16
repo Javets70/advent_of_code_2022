@@ -1,6 +1,6 @@
 class winCalc:
-    points = {"X": 1, "Y": 2, "Z": 3}
-    points2 = {"rock": 1, "paper": 2, "scissor": 3}
+    a = {"X": 1, "Y": 2, "Z": 3}
+    a2 = {"rock": 1, "paper": 2, "scissor": 3}
 
     def __init__(self, filePath: str) -> None:
         self.filePath = filePath
