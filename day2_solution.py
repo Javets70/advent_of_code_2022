@@ -91,3 +91,4 @@ class winCalc:
 winPoints = winCalc("./day2_input.txt")
 # print(winPoints.getAns1())
 print(winPoints.getAns2())
+print(winPoints.getAns2())

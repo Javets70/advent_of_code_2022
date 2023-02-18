@@ -28,18 +28,23 @@ class moveCrates:
             command = command.split()
             count, _from, to = int(command[1]), int(
                 command[3]), int(command[5])
+            print(self.crateDict)
             self.moveCrates(self.crateDict, count, _from, to)
+            print(self.crateDict, "\n")
 
         return self.crateDict
 
     @staticmethod
     def moveCrates(crateDict: dict, count: int, _from: int, to: int):
-        cratesToMove = crateDict[_from][:count]
+        cratesToMove = crateDict[_from][:count][
+            ::-1
+        ]  # remove reverse indexing to get ans1
         crateDict[_from] = crateDict[_from][count:]
         for i in cratesToMove:
             crateDict[to].insert(0, i)
+            # crateDict[to].append(i)
 
-    def getAns1(self):
+    def getAns(self):
         self.makeCrates()
         output_str = ""
         for item in self.crateDict.values():
@@ -49,4 +54,4 @@ class moveCrates:
 
 # test = moveCrates("./day5_sample_input.txt")
 test = moveCrates("./day5_input.txt")
-print(test.getAns1())
+print(test.getAns())
