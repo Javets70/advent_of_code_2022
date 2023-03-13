@@ -8,27 +8,45 @@ def dict_matrix(board: list):
     for i in range(len(matrix)):
         dic[i] = {}
         for j in range(len(matrix)):
-            dic[i][matrix[i][j]] = False
+            dic[i][j] = [matrix[i][j], False]
     return dic
 
 
 def update_board(dic: dict, num: int):
-    for key in dic:
-        for d in dic[key]:
-            if d == num:
-                dic[key][d] = True
+    for i in range(5):
+        for j in range(5):
+            if dic[i][j][0] == num:
+                dic[i][j][1] = True
 
 
 def check_bingo(dic: dict):
     # checking rows
-    for d in dic.values():  # d stores a dict
-        if sum(list(d.values())) == 5:
+    for value in dic.values():
+        row_values = [i[1] for i in value.values()]
+        if sum(row_values) == 5:
+            return True
+
+    # checking columns
+    for i in range(5):
+        column = []
+        for j in range(5):
+            column.append(dic[j][i][1])
+        if sum(column) == 5:
             return True
 
     return False
 
 
-data = open("./day4_sample_input.txt").read()
+def calc_score(dic: dict, num: int):
+    unmarked_nums = []
+    for i in range(5):
+        for j in range(5):
+            if dic[i][j][1] is False:
+                unmarked_nums.append(dic[i][j][0])
+    return sum(unmarked_nums) * num
+
+
+data = open("./day4_input.txt").read()
 bingo_numbers = list(map(int, data.split("\n")[0].split(",")))
 
 board_blocks = data.split("\n")[1:]
@@ -38,5 +56,20 @@ for i in range(len(board_blocks) - 5):
         board = board_blocks[i + 1: i + 6]
         boards[i // 6] = dict_matrix(board)
 
-print(boards[0])
-pprint(boards[0])
+winning_boards = []
+just_called_num = 0
+
+for bingo_number in bingo_numbers:
+    just_called_num = bingo_number
+    for board_number in boards:
+        update_board(boards[board_number], bingo_number)
+        if check_bingo(boards[board_number]):
+            if board_number not in winning_boards:
+                winning_boards.append(board_number)
+
+    if len(winning_boards) == len(boards):
+        break
+
+print(winning_boards)
+print(just_called_num)
+print("DAY4 PART2", calc_score(boards[winning_boards[-1]], just_called_num))
